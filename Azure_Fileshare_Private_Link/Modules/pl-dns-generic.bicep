@@ -8,7 +8,7 @@ param vnetName string
 var privateDnsNameStoragevar = 'privatelink.file.${environment().suffixes.storage}'
 
 //Create Private link
-resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-03-01' = {
+resource privateEndpoint 'Microsoft.Network/privateEndpoints@2022-11-01' = {
   name: '${storageAccountName}-plink'
   location: location
   properties:{
@@ -47,7 +47,7 @@ resource privateDnsNameStorage_vnetName 'Microsoft.Network/privateDnsZones/virtu
     registrationEnabled: false
   }
 }
-resource storageAccountPrivateEndpointName_default 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups@2021-02-01' = {
+resource storageAccountPrivateEndpointName_default 'Microsoft.Network/privateEndpoints/privateDnsZoneGroups@2022-11-01' = {
  parent:privateEndpoint
   name: 'default'
   properties: {
