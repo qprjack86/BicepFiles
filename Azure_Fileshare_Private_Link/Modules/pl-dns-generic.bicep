@@ -5,7 +5,7 @@ param storageAccountName string = '${namePrefix}storageacc'
 param subnetID string
 param storageID string
 param vnetName string
-var privateDnsNameStorage_var = 'privatelink.file.${environment().suffixes.storage}'
+var privateDnsNameStoragevar = 'privatelink.file.${environment().suffixes.storage}'
 
 //Create Private link
 resource privateEndpoint 'Microsoft.Network/privateEndpoints@2021-03-01' = {
@@ -31,7 +31,7 @@ privateLinkServiceConnections:[
 
 //Create Private Zone DNS
 resource privateDnsNameStorage 'Microsoft.Network/privateDnsZones@2020-06-01' = {
-  name: privateDnsNameStorage_var
+  name: privateDnsNameStoragevar
   location: 'global'
   tags: {}
   properties: {}
