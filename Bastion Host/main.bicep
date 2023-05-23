@@ -32,7 +32,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-11-01' = {
     ]
   }
 }
-resource bstPIP 'Microsoft.Network/publicIPAddresses@2021-03-01' = {
+resource bstPIP 'Microsoft.Network/publicIPAddresses@2022-11-01' = {
   name: bstPIPName
   location: location
   sku: {
@@ -42,7 +42,7 @@ resource bstPIP 'Microsoft.Network/publicIPAddresses@2021-03-01' = {
     publicIPAllocationMethod: 'Static'
   }
 }
-resource azureBastion 'Microsoft.Network/bastionHosts@2021-02-01' = {
+resource azureBastion 'Microsoft.Network/bastionHosts@2022-11-01' = {
   name: bstName
   location: location
   properties: {
