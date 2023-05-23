@@ -6,7 +6,8 @@ var firstOutput = split(addressSpace, '.' )
 var mask1 = firstOutput[0]
 var mask2 = firstOutput[1]
 
-var sub4 = '${mask1}.${mask2}.123.0/24'
+var sub1 = '${mask1}.${mask2}.10.0/24'
+var sub2 = '${mask1}.${mask2}.123.0/24'
 
 var bstPIPName = '${vnetName}-bst-pip'
 
@@ -25,9 +26,16 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-11-01' = {
       {
         name: 'AzureBastionSubnet'
         properties: {
-          addressPrefix: sub4
+          addressPrefix: sub2
         }
       }
+      {
+        name:'VMSubnet'
+        properties:{
+          addressPrefix:sub1
+        }
+      }
+      
       
     ]
   }
