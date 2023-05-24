@@ -1,9 +1,7 @@
-targetScope = 'subscription'
-
-param rg1Name string = 'VSL_RG'
-param location string = deployment().location
+param rg1Name string 
+param location string = resourceGroup().id
 param addressSpace string
-param namePrefix string ='VSL'
+param namePrefix string 
 param vmNames array = [
   'srv-dc-az'
   'srv-app-az'
@@ -13,42 +11,28 @@ param vmNames array = [
 @secure()
 param adminPassword string
 
-
-resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' ={
-  name:rg1Name
-  location:location
-  
-}
-
 module vnet 'Modules/vnet-generic.bicep' ={
-name:'${rg1Name}-vnet'
-scope:(resourceGroup(rg1Name))
-params:{
-namePrefix:namePrefix
-location:location
-addressSpace:addressSpace
-}
-dependsOn:[
-  rg
-]
+  name: '${rg1Name}-vnet'
+  params: {
+    namePrefix: namePrefix
+    location: location
+    addressSpace: addressSpace
+  }
 }
 
 module vng 'Modules/virtualnet-gw.bicep' = {
   name:'${rg1Name}-vngw'
-  scope:(resourceGroup(rg1Name))
   params:{
     rgName:rg1Name
     location:location
     namePrefix:namePrefix
-
-    }
+  }
 dependsOn:[
   vnet
 ]
 }  
 module lgw 'Modules/localnetgw-generic.bicep' = {
   name: '${rg1Name}-lngw'
-  scope:(resourceGroup(rg1Name))
   params:{
     localNetworkGatewayName:'SonicWall'
     location:location
@@ -80,7 +64,6 @@ module con 'Modules/vpnconnection-generic.bicep' = {
 
 module vm 'Modules/vm-generic.bicep' = [for name in vmNames:  {
   name:'vm-${name}'
-  scope:(resourceGroup(rg1Name))
   params:{
     rgName:rg1Name
     location:location
