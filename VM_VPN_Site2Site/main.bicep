@@ -2,6 +2,7 @@ targetScope = 'subscription'
 
 param rg1Name string = 'VSL_RG'
 param location string = deployment().location
+param addressSpace string
 param namePrefix string ='VSL'
 param vmNames array = [
   'srv-dc-az'
@@ -25,6 +26,7 @@ scope:(resourceGroup(rg1Name))
 params:{
 namePrefix:namePrefix
 location:location
+addressSpace:addressSpace
 }
 dependsOn:[
   rg
