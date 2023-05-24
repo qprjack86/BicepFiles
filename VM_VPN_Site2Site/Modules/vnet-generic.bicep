@@ -33,7 +33,7 @@ resource vnet_generic 'Microsoft.Network/virtualNetworks@2022-11-01' = {
     {
       name:'GatewaySubnet'
       properties: {
-        addressPrefix: '10.0.2.128/28'
+        addressPrefix: '10.0.255.240/28'
       }
     }
       ]
