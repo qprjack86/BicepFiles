@@ -9,22 +9,20 @@ param bstPrefix string
   'new'
   'existing'
 ])
-param vnetNewOrExisting string = 'new'
+param vnetNewOrExisting string = 'existing'
 
 @description('Name of the Azure virtual network, required if utilizing and existing VNET. If no name is provided the default name will be the Resource Group Name as the Prefix and \'-VNET\' as the suffix')
-param vnetName string = ''
+param vnetName string = 'bst_vnet'
 
 @description('Resource Group containing the existing virtual network, leave blank if a new VNET is being utilized')
-param vnetResourceGroup string = ''
+param vnetResourceGroup string = 'bst_rg'
 
 @description('Virtual Network Address prefix')
-param vnetAddressPrefix string 
+param vnetAddressPrefix string = '10.0.0.0/16'
 
 //param subnet1Name string ='VMSubnet'
 param subnet1Name string ='AzureBastionSubnet'
 
-@description('Identify whether to use a new or existing bastion')
-//param bstNewOrExisting string = 'new'
 param bstName string = ''
 
 
@@ -56,11 +54,9 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2022-11-01' = if (vne
           addressPrefix: sub1
         }
       }
-    
     ]
   }
 }
-
 resource BastionSub 'Microsoft.Network/virtualNetworks/subnets@2022-11-01' = if (vnetNewOrExisting == 'existing') {
   name: subnet1Name
   parent:virtualNetwork
@@ -70,7 +66,7 @@ resource BastionSub 'Microsoft.Network/virtualNetworks/subnets@2022-11-01' = if 
 }
 }
 
-resource azureBastion 'Microsoft.Network/bastionHosts@2022-11-01' = {
+resource azureBastion 'Microsoft.Network/bastionHosts@2022-11-01' =  {
   name: bstNamevar
   location: location
   properties: {
@@ -88,9 +84,6 @@ resource azureBastion 'Microsoft.Network/bastionHosts@2022-11-01' = {
        }
     ]
   }
-dependsOn:[
-  virtualNetwork
-]
 }
 resource bstPIP 'Microsoft.Network/publicIPAddresses@2022-11-01'=  {
   name: bstPIPNamevar
@@ -100,8 +93,5 @@ resource bstPIP 'Microsoft.Network/publicIPAddresses@2022-11-01'=  {
   }
   properties: {
     publicIPAllocationMethod: 'Static'
-  }
-dependsOn:[
-  virtualNetwork
-] 
+  } 
 }
